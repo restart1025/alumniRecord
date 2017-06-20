@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java/cn/edu/cumt/domain/Academy.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/Education.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/Gender.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/Person.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/Resource.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/ResourceType.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/Role.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/domain/RoleType.java=UTF-8
+encoding//src/main/java/cn/edu/cumt/mapper/PersonMapper.java=UTF-8
+encoding/<project>=UTF-8
