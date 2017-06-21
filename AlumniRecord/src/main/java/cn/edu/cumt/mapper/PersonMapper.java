@@ -1,7 +1,6 @@
 package cn.edu.cumt.mapper;
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import cn.edu.cumt.domain.Person;
@@ -12,10 +11,10 @@ import cn.edu.cumt.domain.Person;
 public interface PersonMapper {
 
 	/**
-	 * 查询所有图书
-	 * @return 图书对象集合
+	 * 根据personId查找人员
+	 * @return 人员对象
 	 * */
-	@Select(" select * from tb_book ")
-	List<Person> findAll();
+	@Select(" SELECT * FROM person WHERE person_id = #{personId} ")
+	Person getByPersonId(@Param("personId")String personId);
 	
 }
