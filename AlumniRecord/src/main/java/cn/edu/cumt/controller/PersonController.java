@@ -13,7 +13,7 @@ import cn.edu.cumt.service.PersonService;
  * 处理人员请求
  * */
 @Controller
-@RequestMapping(value="/person")
+@RequestMapping(value="/")
 public class PersonController {
 	
 	/**
@@ -31,7 +31,7 @@ public class PersonController {
 		// 根据编号查询人员
 		Person person = personService.getByPersonId("123456");
 		// 将集合添加到model当中
-		model.addAttribute("personName", person.getPersonName());
+//		model.addAttribute("personName", person.getPersonName());
 		// 跳转到main页面
 		return "loginForm";
 	}

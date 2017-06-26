@@ -5,7 +5,7 @@
 <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Find Guitar</title>
+		<title>校友通讯录</title>
 		<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" /> 
 		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		
@@ -29,7 +29,7 @@
 			<div class="row clearfix">
 				<div class="col-md-6 column">
 					<a href="#">
-			            <img src="http://f.hiphotos.baidu.com/baike/w%3D268%3Bg%3D0/sign=08ce846ad5c8a786be2a4d085f32ae00/730e0cf3d7ca7bcb2797e3bfba096b63f724a8b5.jpg"
+			            <img src="${pageContext.request.contextPath}/images/index.png"
 			             class="img-responsive img-thumbnail" alt="中国矿业大学管理学院" width="20%" height="20%"> 
 			        </a>
 				</div>
@@ -96,7 +96,7 @@
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-						<img alt="" src="images/default1.jpg" />
+						<img alt="" src="${pageContext.request.contextPath}/images/default1.jpg" />
 						<div class="carousel-caption">
 							<h4>
 								First Thumbnail label
@@ -107,7 +107,7 @@
 						</div>
 					</div>
 					<div class="item">
-						<img alt="" src="images/default1.jpg" />
+						<img alt="" src="${pageContext.request.contextPath}/images/default1.jpg" />
 						<div class="carousel-caption">
 							<h4>
 								Second Thumbnail label
@@ -118,7 +118,7 @@
 						</div>
 					</div>
 					<div class="item">
-						<img alt="" src="images/default2.jpg" />
+						<img alt="" src="${pageContext.request.contextPath}/images/default2.jpg" />
 						<div class="carousel-caption">
 							<h4>
 								Third Thumbnail label
