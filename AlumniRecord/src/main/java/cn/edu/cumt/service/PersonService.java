@@ -1,16 +1,49 @@
 package cn.edu.cumt.service;
 
-import cn.edu.cumt.domain.Person;
+import java.util.HashMap;
+import java.util.List;
 
-/**
- * BookæœåŠ¡å±‚æ¥å£
- * */
+import cn.edu.cumt.domain.Person;
+import cn.edu.cumt.domain.Resource;
+import cn.edu.cumt.domain.Role;
+
 public interface PersonService {
 	
 	/**
-	 * æ ¹æ®personIdæŸ¥æ‰¾äººå‘˜
-	 * @return Personå¯¹è±¡
-	 * */
+	 * ¸ù¾İpersonId»ñÈ¡ÈËÔ±
+	 * @param personId
+	 * @return
+	 */
 	Person getByPersonId(String personId);
-
+	/**
+	 * »ñÈ¡ÓÃ»§µÄÈ¨ÏŞ²Ëµ¥
+	 * @param personId
+	 * @param parentResourceSn
+	 * @return
+	 */
+	List<Resource> getMenu(String personId, String parentResourceSn);
+	/**
+	 * »ñÈ¡ÈËÔ±µÄ½ÇÉ«
+	 * @param person
+	 * @return
+	 */
+	List<Role> getRoles(Person person);
+	/**
+	 * »ñÈ¡Ö¸¶¨ÈËÔ±ÓµÓĞµÄ½ÇÉ«
+	 * @param personId
+	 * @return
+	 */
+	HashMap<String,String> getRoles(String personId); 
+	/**
+	 * ¸ù¾İhqlÓï¾ä²éÑ¯×ÜÊı
+	 * @param hql
+	 * @return
+	 */
+	Long getCountByHql(String hql);
+	/**
+	 * ¸ù¾İid»ñÈ¡ÈËÔ±
+	 * @param id
+	 * @return
+	 */
+	Person getById(int id);
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />  
+	<package name="xytxl-struts" namespace="/" extends="json-default" strict-method-invocation="false">		
+		<!-- 定义拦截器、拦截器栈 -->
+<!-- 		<interceptors> -->
+<!-- 			<interceptor name="loginInterceptor" class="cn.jagl.aq.Interceptor.LoginInterceptor"></interceptor> -->
+<!-- 			<interceptor-stack name="loginInterceptorStack"> -->
+<!-- 				<interceptor-ref name="defaultStack"> -->
+<!--     			</interceptor-ref> -->
+<!-- 				<interceptor-ref name="loginInterceptor"></interceptor-ref> -->
+<!-- 			</interceptor-stack> -->
+<!-- 		</interceptors> -->
+		<!-- 默认拦截器 -->		
+<!-- 		<default-interceptor-ref name="loginInterceptorStack"></default-interceptor-ref> -->
+		<!-- 定义全局Result -->
+		<global-results>
+			<!-- 当返回login视图名时，转入登录页面login.jsp -->
+			<result name="login">/WEB-INF/view/login.jsp</result>
+			<result name="error">/WEB-INF/view/error.jsp</result>
+			<result name="mpwd">/WEB-INF/view/base/modifypwd.jsp</result>
+		</global-results>
+	</package>
+	<!-- 导入其它struts配置文件 -->
+	<!-- 人员、角色、资源相关 -->
+	<include file="struts-config/struts-person.xml"></include>
+	<!--通知 -->
+	<include file="struts-config/struts-notice.xml"></include>
+	
+	<package name="xytxl" namespace="/" extends="xytxl-struts" strict-method-invocation="false">
+		<action name="chinaDate" class="cn.edu.cumt.util.ChinaDateAction">
+			<!-- 配置类型的json的Result -->
+			<result type="json">
+				<!-- 为该Result指定参数 -->
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+				<!-- 设置只序列Action的map属性 -->
+				<param name="root">today</param>
+			</result>
+		</action>
+		<action name="exitAction_exit" class="cn.jagl.aq.action.PersonAction" method="exit">
+				<result>/WEB-INF/content/login.jsp</result>
+		</action>
+        <action name="*">
+			<result>/WEB-INF/content/{1}.jsp</result>			
+		</action>			
+	</package>
+</struts>

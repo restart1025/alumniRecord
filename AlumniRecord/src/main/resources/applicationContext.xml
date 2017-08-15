@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context" 
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-			            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-			            http://www.springframework.org/schema/context
-			            http://www.springframework.org/schema/context/spring-context-4.3.xsd
-			            http://www.springframework.org/schema/mvc
-			            http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-			            http://www.springframework.org/schema/tx
-			            http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-			            http://mybatis.org/schema/mybatis-spring 
-			            http://mybatis.org/schema/mybatis-spring.xsd ">
-			      
-	 <!-- mybatis:scan会将org.fkit.mapper包里的所有接口当作mapper配置，之后可以自动引入mapper类-->  
-    <mybatis:scan base-package="cn.edu.cumt.mapper"/>   
-       
-	<!-- 扫描org.fkit包下面的java文件，有Spring的相关注解的类，则把这些类注册为Spring的bean -->
-    <context:component-scan base-package="cn.edu.cumt"/>
-    
-	<!-- 使用PropertyOverrideConfigurer后处理器加载数据源参数 -->
-	<context:property-override location="classpath:db.properties"/>
-
-	<!-- 配置c3p0数据源 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"/>
-	
-	<!-- 配置SqlSessionFactory，org.mybatis.spring.SqlSessionFactoryBean是Mybatis社区开发用于整合Spring的bean -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
-	    p:dataSource-ref="dataSource"/>
-	
-	<!-- JDBC事务管理器 -->
-	<bean id="transactionManager" 
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		 p:dataSource-ref="dataSource"/>
-	
-	<!-- 启用支持annotation注解方式事务管理 -->
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+	<!-- 使用注解  -->
+	<task:annotation-driven /> 
+	<context:annotation-config/>  	
+	<context:component-scan base-package="cn.jagl.."/>
+	<!-- 以下采用相对路径  -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  		<property name="locations" value="classpath:dbconf.properties"/>
+	</bean> 
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close"
+		p:driverClass="${driverClassName}"
+		p:jdbcUrl="${jdbc.url}" 
+ 		p:user="${jdbc.username}" 
+ 		p:password="${jdbc.password}"
+		p:maxPoolSize="40"
+		p:minPoolSize="2"
+		p:initialPoolSize="2"
+		p:maxIdleTime="30"/>
+	<bean id="sessionFactory" 
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource">
+		<property name="annotatedClasses">
+			<list>
+				<value>cn.edu.cumt.domain.Person</value>
+				<value>cn.edu.cumt.domain.Role</value>
+				<value>cn.edu.cumt.domain.Resource</value>
+				<value>cn.edu.cumt.domain.Notice</value>
+				<value>cn.edu.cumt.domain.NoticeAttachment</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
+			</props>
+		</property>
+	</bean>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>  
+	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" /> 
+    <bean id="transactionManager" class=
+		"org.springframework.orm.hibernate5.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory"/>	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="leePointcut"
+			expression="execution(* cn.edu.cumt.service.impl.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="leePointcut"/>
+	</aop:config>
 </beans>
